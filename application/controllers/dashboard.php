@@ -25,10 +25,60 @@ class Dashboard extends CI_Controller {
             redirect("login");
         }
     }
+
+    public function backup(){
+        $this->load->dbutil();
+        
+    
+        $prefs = array(
+        'format' => 'zip',
+        'filename' => 'my_db_backup.sql'
+        );
+    
+        $backup =& $this->dbutil->backup($prefs);
+    
+        $db_name = 'backup-on-' . date("Y-m-d-H-i-s") . '.zip'; // file name
+        $save  = 'backup/db/' . $db_name; // dir name backup output destination
+        $tgl = date("Y-m-d-H-i-s");
+        $keterangan = "";
+
+        $this->load->helper('file');
+         write_file($save, $backup);
+        
+        if(write_file($save, $backup)){
+            //Insert Log to Dashboard
+            $keterangan = "Sukses";
+            $data = array( 
+                'tgl' => $tgl, 
+                'activity' => $db_name,
+                'status'  => $save ,
+                'keterangan' => $keterangan
+            );
+            $this->admin->input_log($data,'todo');
+            $this->load->helper('download');
+            force_download($db_name, $backup);
+        } else{
+            //Insert Log to Dashboard
+            $keterangan = "Gagal";
+            $data = array( 
+                'tgl' => $tgl, 
+                'activity' => $db_name,
+                'status'  => $save ,
+                'keterangan' => $keterangan
+            );
+            $this->admin->input_log($data,'todo');
+        }
+        $url = base_url() . "index.php/dashboard";
+        
+
+        
+    }
+
     public function logout(){
         $this->session->sess_destroy();
         redirect('login');
     }
+    
 
     
     // public function __destruct(){

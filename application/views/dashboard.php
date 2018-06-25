@@ -41,7 +41,8 @@
                 <h3 class="panel-title"><i class="fa fa-dashboard"></i> Dashboard</h3>
               </div>
               <div class="panel-body">
-              <a href="http://localhost/framework/index.php/dashboard/print" type="submit" class="btn btn-info"><i class="fa fa-print"></i>Export to Excel</a>
+              <a href="<?php echo base_url() ?>index.php/dashboard/print" type="submit" class="btn btn-info"><i class="fa fa-print"></i>Export to Excel</a>
+              <a href="<?php echo base_url() ?>index.php/dashboard/backup" type="submit" class="btn btn-primary"><i class="fa fa-file-zip-o"></i>Backup</a>
               </div>
               <div class="panel-body">
                 <p>Table Log</p>

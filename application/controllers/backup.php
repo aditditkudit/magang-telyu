@@ -35,6 +35,7 @@ class Backup extends CI_Controller
     public function db()
     {
         $this->load->dbutil();
+        
     
         $prefs = array(
         'format' => 'zip',
@@ -61,9 +62,9 @@ class Backup extends CI_Controller
                 'keterangan' => $keterangan
             );
             $this->admin->input_log($data,'todo');
-            $this->load->helper('move');
+            $this->load->helper('download');
             force_download($db_name, $backup);
-            redirect('dashboard');
+            
         } else{
             //Insert Log to Dashboard
             $keterangan = "Gagal";
@@ -74,9 +75,9 @@ class Backup extends CI_Controller
                 'keterangan' => $keterangan
             );
             $this->admin->input_log($data,'todo');
-            redirect('dashboard');
+            
         }
-
+        
         
 
         
