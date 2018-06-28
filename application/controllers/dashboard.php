@@ -6,6 +6,8 @@ class Dashboard extends CI_Controller {
         parent::__construct();
         //ngeload model admin
         $this->load->model('admin');
+        $this->load->model('mFile');
+
     }
     public function index(){
         if ( $this->admin->logged_id() ) {
@@ -18,7 +20,7 @@ class Dashboard extends CI_Controller {
     }
     public function print(){
         if ( $this->admin->logged_id() ) {
-            $data = array('title' => 'Laporan Excel '.date("d F Y") ,
+            $data = array('title' => 'Laporan Excel '.date("Y-m-d-H-i-s") ,
                 'list_todo' => $this->admin->show_list_todo() );
             $this->load->view("laporan_excel", $data);
         } else {
@@ -43,8 +45,7 @@ class Dashboard extends CI_Controller {
         $keterangan = "";
 
         $this->load->helper('file');
-         write_file($save, $backup);
-        
+        $wFile = write_file($save, $backup);
         if(write_file($save, $backup)){
             //Insert Log to Dashboard
             $keterangan = "Sukses";
@@ -55,8 +56,18 @@ class Dashboard extends CI_Controller {
                 'keterangan' => $keterangan
             );
             $this->admin->input_log($data,'todo');
-            $this->load->helper('download');
-            force_download($db_name, $backup);
+            $rFile = read_file($wFile);
+            $mime = "application/zip";
+            $inputFile = array(
+                'datecreate' => $tgl,
+                'filename' => $db_name,
+                'mime' =>  $mime,
+                'data' => $rFile
+
+            );
+            $this->mFile->input_file($inputFile, 'list_file');
+            // $this->load->helper('download');
+            // force_download($db_name, $backup);
         } else{
             //Insert Log to Dashboard
             $keterangan = "Gagal";
@@ -68,10 +79,32 @@ class Dashboard extends CI_Controller {
             );
             $this->admin->input_log($data,'todo');
         }
-        $url = base_url() . "index.php/dashboard";
+        redirect('file');
+        
         
 
         
+    }
+
+    public function db(){
+        $this->load->dbutil();
+        $backup = $this->dbutil->backup();
+
+        $this->load->helper('file');
+        $wFile = write_file('backup/db/mybackup.zip', $backup);
+        $rFile = read_file($wFile);
+
+        $inputFile = array(
+            'datecreate' => $tgl,
+            'filename' => $db_name,
+            'mime' =>  $mime,
+            'data' => $rFile
+        );
+        $this->mFile->input_file($inputFile, 'list_file');
+        redirect('file');
+
+
+
     }
 
     public function logout(){
