@@ -38,9 +38,9 @@ class Dashboard extends CI_Controller {
         );
     
         $backup =& $this->dbutil->backup($prefs);
-    
-        $db_name = 'backup-on-' . date("Y-m-d-H-i-s") . '.zip'; // file name
-        $save  = 'backup/db/' . $db_name; // dir name backup output destination
+        $db_name = $this->db->database;
+        $db_filename = 'backup-'. $db_name .'-on-' . date("Y-m-d-H-i-s") . '.zip'; // file name
+        $save  = 'backup/db/' . $db_filename; // dir name backup output destination
         $tgl = date("Y-m-d-H-i-s");
         $keterangan = "";
 
@@ -51,31 +51,32 @@ class Dashboard extends CI_Controller {
             $keterangan = "Sukses";
             $data = array( 
                 'tgl' => $tgl, 
-                'activity' => $db_name,
-                'status'  => $save ,
-                'keterangan' => $keterangan
+                'activity' => $db_filename,
+                'status'  => $keterangan ,
+                'keterangan' => 'Berhasil Masuk di DB'
             );
             $this->admin->input_log($data,'todo');
-            $rFile = read_file($wFile);
-            $mime = "application/zip";
+            $rFile = read_file($save);
+            $mime = get_mime_by_extension($db_filename);
             $inputFile = array(
-                'datecreate' => $tgl,
-                'filename' => $db_name,
+                'filename' => $db_filename,
                 'mime' =>  $mime,
                 'data' => $rFile
 
             );
             $this->mFile->input_file($inputFile, 'list_file');
+            
             // $this->load->helper('download');
-            // force_download($db_name, $backup);
+            // force_download($db_filename, $backup);
+     
         } else{
             //Insert Log to Dashboard
             $keterangan = "Gagal";
             $data = array( 
                 'tgl' => $tgl, 
-                'activity' => $db_name,
-                'status'  => $save ,
-                'keterangan' => $keterangan
+                'activity' => $db_filename,
+                'status'  => $keterangan ,
+                'keterangan' => 'Gagal Write File'
             );
             $this->admin->input_log($data,'todo');
         }
@@ -96,7 +97,7 @@ class Dashboard extends CI_Controller {
 
         $inputFile = array(
             'datecreate' => $tgl,
-            'filename' => $db_name,
+            'filename' => $db_filename,
             'mime' =>  $mime,
             'data' => $rFile
         );

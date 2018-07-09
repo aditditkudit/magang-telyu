@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> File</title>
+    <title> Dashboard</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -42,42 +42,34 @@
         <div class="col-md-9">
             <div class="panel panel-default">
               <div classs="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-file"></i> File</h3>
+                <h3 class="panel-title"><i class="fa fa-cog"></i> Setting</h3>
               </div>
-              <!-- <div class="panel-body" id="test">
-              <a href="<?php echo base_url() ?>/dashboard/print" type="submit" class="btn btn-info"><i class="fa fa-print"></i>Export to Excel</a>
-              <a href="<?php echo base_url() ?>/dashboard/backup" type="submit" class="btn btn-primary"><i class="fa fa-file-zip-o"></i>Backup</a>
-              </div> -->
-                <div class="panel-body">
-                <p>Table File</p>
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Nama File</th>
-                      </tr>
-                    </thead>
-                    <?php 
-                      if(!empty($list_file)){
-                        foreach($list_file as $loFile){
-                      
-                    ?>
-                    <tbody>
-                       <tr>
-                          <td> <?=$loFile->filename ?> </td>
-                          <!-- <td> <a href="unduh" type="submit" class="btn btn-primary">Download</a></td> -->
-                          <td> <?php echo'<a href='.'file/unduh?id='.$loFile->id.' type="submit" class="btn btn-primary">Download </a>'; ?>  </td>
-                       </tr>       
-                    </tbody>
-                          <?php 
-                            }
-                          }  
-                          ?>
-                  </table>
+              <div class="panel-body">
+                  <div class="form-group">
+
+                    <?php echo form_label('Database Mana yang Mau Dibackup?', '',$attributes=array() ); ?>
+                    <div class="checkbox">
+                      <label>
+                        <?php echo form_checkbox("database_which[]", "ci_magang", set_checkbox(
+                            "database_which", "ci_magang")); ?> ci_magang
+                      </label>   
+                    </div>
+
+                    <div class="checkbox">
+                      <label>
+                        <?php echo form_checkbox("database_which[]", "test", set_checkbox(
+                            "database_which", "test")); ?> test
+                      </label>   
+                    </div>
+
+                  </div>
+                
               </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>

@@ -18,7 +18,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Dashboard</a>
+          <a class="navbar-brand" href="#">HEHE</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <div class="navbar-form navbar-right">
@@ -35,6 +35,7 @@
               </a>
               <a href="<?php echo base_url() ?>dashboard" class="list-group-item"><i class="fa fa-dashboard"></i> Dashboard</a>
               <a href="<?php echo base_url() ?>file" class="list-group-item"><i class="fa fa-file"></i> File</a>
+              <a href="<?php echo base_url() ?>cSettings" class="list-group-item"><i class="fa fa-cog"></i> Setting</a>
               <a href="<?php echo base_url() ?>dashboard/logout" class="list-group-item"><i class="fa fa-sign-out"></i> Logout</a>
             </div>
         </div>
@@ -44,8 +45,8 @@
                 <h3 class="panel-title"><i class="fa fa-dashboard"></i> Dashboard</h3>
               </div>
               <div class="panel-body" id="test">
-              <a href="<?php echo base_url() ?>/dashboard/print" type="submit" class="btn btn-info"><i class="fa fa-print"></i>Export to Excel</a>
-              <a href="<?php echo base_url() ?>/dashboard/db" type="submit" class="btn btn-primary"><i class="fa fa-file-zip-o"></i>Backup</a>
+              <a href="<?php echo base_url() ?>dashboard/print" type="submit" class="btn btn-info"><i class="fa fa-print"></i>Export to Excel</a>
+              <a href="<?php echo base_url() ?>dashboard/backup" type="submit" class="btn btn-primary"><i class="fa fa-file-zip-o"></i>Backup</a>
               </div>
               <div class="panel-body">
                 <p>Table Log</p>
