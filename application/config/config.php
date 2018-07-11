@@ -522,3 +522,33 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|
+|
+|           CONFIG DATABASE
+|
+|
+|
+*/
+$config['sysdb'] = array(
+    'dsn'	=> '',
+	'hostname' => 'localhost', #Your Localhost
+	'username' => 'root',      #Your Username DB
+	'password' => '',          #Your Password DB
+	'database' => '',          #Your Database Name
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

@@ -45,25 +45,47 @@
                 <h3 class="panel-title"><i class="fa fa-cog"></i> Setting</h3>
               </div>
               <div class="panel-body">
+                  <?php 
+                  if (validation_errors()){
+                    echo '<div class="alert alert-danger" role="alert">';
+                    echo validation_errors();
+                    echo '</div>';
+                  }
+                  ?>
                   <div class="form-group">
+                    <?php
+                    echo form_open('cSettings/proses');
+                    echo form_label('Database Mana yang Mau Dibackup?', '',$attributes=array() );
+                    
+                    if(!empty($list_database)){
+                      foreach($list_database as $listDB){
+                        
+                    //   }
+                    // }
+                    ?>
 
-                    <?php echo form_label('Database Mana yang Mau Dibackup?', '',$attributes=array() ); ?>
+                    
                     <div class="checkbox">
                       <label>
-                        <?php echo form_checkbox("database_which[]", "ci_magang", set_checkbox(
-                            "database_which", "ci_magang")); ?> ci_magang
-                      </label>   
+                        <?php echo form_checkbox('database_which[]', $listDB->name_database, set_checkbox(
+                            'database_which[]', $listDB->name_database));  echo $listDB->name_database ;  ?>
+                      </label>  
                     </div>
 
-                    <div class="checkbox">
-                      <label>
-                        <?php echo form_checkbox("database_which[]", "test", set_checkbox(
-                            "database_which", "test")); ?> test
-                      </label>   
+                    <?php
+                        }
+                      } ?> 
+
+                    <div class=submit>
+                      <?php 
+                      $data = array('name' => 'submit', 'type' => 'submit' ,
+                                  'value' => 'Backup', 'class' => 'btn btn-primary');
+                      echo form_submit($data);
+                      echo form_close();
+                      ?>
                     </div>
 
                   </div>
-                
               </div>
             </div>
         </div>
