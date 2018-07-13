@@ -10,10 +10,9 @@ class CSettings extends CI_Controller{
     }
 
     public function index(){
-        if ($this->admin->logged_id() ){ 
+        if ($this->admin->logged_id() ){
             $data['list_database'] = $this->mSettings->getAllDb();
-            $this->load->view('vSettings', $data);
-
+            $this->load->view('vSettings', $data);          
         }
         else {
             redirect("login");
@@ -31,8 +30,8 @@ class CSettings extends CI_Controller{
             $this->load->view('vSettings', $data);
         } else{
             # Doing Backup
-            $data = $this->input->post('database_which');
-            foreach($data as $obj){
+            $dataP = $this->input->post('database_which[]', TRUE);
+            foreach($dataP as $obj){
                 $this->db->close();
                 $configDBfly = $this->config->config['sysdb'];
                 $configDBfly['database'] = $obj;                   

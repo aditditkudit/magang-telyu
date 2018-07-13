@@ -4,9 +4,6 @@
     <title> Dashboard</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
-
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -57,24 +54,37 @@
                     echo form_open('cSettings/proses');
                     echo form_label('Database Mana yang Mau Dibackup?', '',$attributes=array() );
                     
+                    
                     if(!empty($list_database)){
                       foreach($list_database as $listDB){
                         
-                    //   }
-                    // }
+                    
                     ?>
 
                     
                     <div class="checkbox">
                       <label>
-                        <?php echo form_checkbox('database_which[]', $listDB->name_database, set_checkbox(
-                            'database_which[]', $listDB->name_database));  echo $listDB->name_database ;  ?>
-                      </label>  
+                      
+                        <?php 
+                          //  echo form_checkbox('database_which[]', $listDB->name_database, set_checkbox( << Percobaan pertama
+                          //   'database_which', $listDB->name_database));  echo $listDB->name_database ;
+                          $data = array(
+                              'name' => 'database_which[]',
+                              'data-cookie-checkbox' => 'true',
+                              'value' => $listDB->name_database,
+                              'id' => 'box',
+                              'data-cookie-checkbox-key' => 'database_which[]',
+                              'data-cookie-checkbox-value' => $listDB->name_database
+                          );
+                           echo form_checkbox($data); echo $listDB->name_database; 
+                            ?>
+                      </label> 
                     </div>
-
                     <?php
+                        
                         }
                       } ?> 
+                     
 
                     <div class=submit>
                       <?php 
@@ -91,14 +101,14 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="<?php echo base_url() ?>assets/jquery.cookie.js"></script>
+<script src="<?php echo base_url() ?>assets/cookie-checkbox.js"></script>
 <script>
-//   $('#test').click(function(e){
-//     e.preventDefault();
-//     window.location.href = '../';
-// });
+$(document).ready(function() {
+  enableCookieCheckBox();
+});
 </script>
 </body>
 </html>

@@ -26,7 +26,10 @@ class Admin extends CI_Model
     }
 
     function show_list_todo(){
-        $todo = $this->db->get('todo');
+        $this->db->select('*');
+        $this->db->from('todo');
+        $this->db->order_by('tgl', 'desc');
+        $todo = $this->db->get();
         return $todo->result();
     }
 
