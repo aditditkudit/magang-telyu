@@ -75,14 +75,14 @@ $query_builder = TRUE;
 
 $db['ayam'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
+	'hostname' => 'localhost', #PAKAI IP
+	'username' => 'root', # NYOBA user baru
 	'password' => '',
 	'database' => 'ci_magang',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'db_debug' => FALSE, //(ENVIRONMENT !== 'production')
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',

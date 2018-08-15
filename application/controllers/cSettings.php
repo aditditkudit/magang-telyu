@@ -11,8 +11,11 @@ class CSettings extends CI_Controller{
 
     public function index(){
         if ($this->admin->logged_id() ){
+            $this->load->database();
             $data['list_database'] = $this->mSettings->getAllDb();
-            $this->load->view('vSettings', $data);          
+            $this->load->view('header', $data);
+            $this->load->view('vSettings', $data);
+            $this->load->view('footer', $data);          
         }
         else {
             redirect("login");
@@ -22,67 +25,24 @@ class CSettings extends CI_Controller{
     public function proses(){
         $this->form_validation->set_rules(
             'database_which[]', '',
-            'required', array("required"=>"Pilih Salah Satu Ya Bro Bro")
+            'required', array("required"=>"Pilih salah satu atau lebih database yang tersedia, untuk melakukan Backup")
         );
 
         if ($this->form_validation->run() == FALSE){
+            $this->load->database();
             $data['list_database'] = $this->mSettings->getAllDb();
+            $this->load->view('header', $data);
             $this->load->view('vSettings', $data);
+            $this->load->view('footer', $data);               
         } else{
             # Doing Backup
-            $dataP = $this->input->post('database_which[]', TRUE);
-            foreach($dataP as $obj){
-                $this->db->close();
-                $configDBfly = $this->config->config['sysdb'];
-                $configDBfly['database'] = $obj;                   
-                $this->load->database($configDBfly);
-                $this->db = $this->load->database($configDBfly, true);
-                $this->load->dbutil();
-                
-                $prefs = array(
-                    'format' => 'zip',
-                    'filename' => 'db_'. $obj .'_backup.sql'
-                );
-                $backup = $this->dbutil->backup($prefs);
-                $db_filename = 'backup-'. $obj .'-on-' . date("Y-m-d-H-i-s") . '.zip'; // file name
-                $save  = 'backup/db/' . $db_filename; // dir name backup output destination
-                $tgl = date("Y-m-d-H-i-s");
-                $keterangan = "";
-                $this->load->helper('file');
-                $wFile = write_file($save, $backup);
-
-                $this->db->close();
-                $this->load->database();
-                if(write_file($save, $backup)){
-                    //Insert Log to Dashboard
-                    $keterangan = "Sukses";
-                    $data = array( 
-                        'tgl' => $tgl, 
-                        'activity' => $db_filename,
-                        'status'  => $keterangan ,
-                        'keterangan' => 'Berhasil Masuk di DB'
-                    );
-                    $this->admin->input_log($data,'todo');
-                    $rFile = read_file($save);
-                    $mime = get_mime_by_extension($db_filename);
-                    $inputFile = array(
-                        'filename' => $db_filename,
-                        'mime' =>  $mime,
-                        'data' => $rFile
-                    );
-                    $this->mFile->input_file($inputFile, 'list_file');
-                }else{
-                    //Insert Log to Dashboard
-                    $keterangan = "Gagal";
-                    $data = array( 
-                        'tgl' => $tgl, 
-                        'activity' => $db_filename,
-                        'status'  => $keterangan ,
-                        'keterangan' => 'Gagal Write File'
-                    );
-                    $this->admin->input_log($data,'todo');
-                }            
+            $this->load->library('session');
+            if(!empty($this->session->userdata('post_ckbox'))){
+                $this->session->unset_userdata('post_ckbox');
             }
+            $dataP = $this->input->post('database_which[]', TRUE);
+            $this->session->set_userdata('post_ckbox', $dataP);
+
             redirect('dashboard');
         }
     }

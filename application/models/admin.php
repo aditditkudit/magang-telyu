@@ -25,12 +25,15 @@ class Admin extends CI_Model
         }
     }
 
-    function show_list_todo(){
+    function show_list_todo($number, $offset){
         $this->db->select('*');
-        $this->db->from('todo');
         $this->db->order_by('tgl', 'desc');
-        $todo = $this->db->get();
+        $todo = $this->db->get('todo', $number, $offset);
         return $todo->result();
+    }
+
+    function jumlah_file_todo(){
+        return $this->db->get('todo')->num_rows();
     }
 
     function input_log($data, $table){
